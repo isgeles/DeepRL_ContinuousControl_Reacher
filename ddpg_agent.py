@@ -16,7 +16,7 @@ TAU = 1e-3              # for soft update of target parameters
 LR_ACTOR = 5e-4         # learning rate of the actor 
 LR_CRITIC = 5e-4        # learning rate of the critic
 WEIGHT_DECAY = 0.000    # L2 weight decay
-UPDATE_EVERY = 1        # how often to update the network
+UPDATE_EVERY = 1        # how often to update the networks
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -59,11 +59,11 @@ class Agent():
         # Initialize time step (for updating critic every UPDATE_EVERY steps)
         self.t_step = 0
     
-    def step(self, state, action, reward, next_state, done):
+    def step(self, states, actions, rewards, next_states, dones):
         """Save experience in replay memory, and use random sample from buffer to learn."""
-        # Save experience / reward of every agent
+        # Save experience / reward of every agent to buffer
         for i in range(self.num_agents):
-            self.memory.add(state[i,:], action[i,:], reward[i], next_state[i,:], done[i])
+            self.memory.add(states[i,:], actions[i,:], rewards[i], next_states[i,:], dones[i])
 
         # Learn every UPDATE_EVERY time steps.
         self.t_step = (self.t_step + 1) % UPDATE_EVERY
